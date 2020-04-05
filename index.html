@@ -1220,25 +1220,8 @@
 
 </div>
     <div id="chart-container"></div>
-    <div id="control-container">
-      <div>
-          <div>
-
-    
-            <div>
-
-
-
-          <div id="save-button-container">
-            <button class="switch-button" id="save-button">Save Image</button>
-          </div>
-        </div>
-        
-      </div>
-      
+    <div id="control-container">      
     </div>
-
-    <div id="tmp-container"></div>
 
 
 
@@ -1440,10 +1423,12 @@
                 return 1
               })
               .sort(function(a, b) {
-                return d3.ascending(a.key, b.key)
+                return d3.ascending(a.value.key, b.value.key)
               });
   
             var chartPieData = chartPie(d3.entries(themeSorted));
+
+            console.log('chartPieData', chartPieData)
 
 
             themeFontData = categoryFontObject[0];
@@ -1455,6 +1440,7 @@
               .enter()
               .append("path")
               .attr("id", function(d) {
+
                 return (
                   "background-segment-" +
                   d.data.value.key.replace(/ /g, "-").replace(/&/g, "and")
@@ -1714,6 +1700,9 @@
               /*.each(function(d) {
                 d.hide = false;
               })*/
+              .attr("id", function(d) {
+                return d.Company.replace(/ /g, "-")
+              })
               .attr("class", "nodes")
               .attr("x", function(d) {
                 return d.x;
@@ -2262,9 +2251,12 @@
                 return d.opacity;
               });
             }
+
             function save_split() {
+
               for (let i = 0; i < chartPieData.length; i++) {
                 setTimeout(function() {
+
                   var selection =
                     "#background-segment-" +
                     chartPieData[i].data.value.key
@@ -2297,14 +2289,14 @@
                       }
                       if (i === 2) {
                         var hor = tmp_width - 350;
-                        var ver = tmp_height - 250;
+                        var ver = tmp_height - 30;
                       }
                       if (i === 3) {
-                        var hor = tmp_width - 200;
-                        var ver = tmp_height - 50;
+                        var hor = tmp_width - 340;
+                        var ver = tmp_height - 200;
                       }
                       if (i === 4) {
-                        var hor = tmp_width - 50;
+                        var hor = tmp_width - 290;
                         var ver = tmp_height - 325;
                       }
                       if (i === 5) {
@@ -2374,7 +2366,7 @@
               .attr("d", segmentLabelBandArc)
               .attr("id", function(d) {
                 return (
-                  d.data.value.key.toLowerCase().replace(/ /g, "-") + "-band"
+                  d.data.value.key.toLowerCase().replace(/ /g, "-") + "-tmp-band"
                 );
               })
               .attr("fill", "#82ADBD")
@@ -2462,9 +2454,6 @@
                 .text(function(d) {
                   return d.data
                 });  
-
-
-            console.log('chartPieData[i].data.value.key', chartPieData[i].data.value.key)
   
   
             var tmp_nodes = tmp_chartSVG
@@ -2478,7 +2467,6 @@
               .attr("target", "_blank")
               .append("image")
               .style("display", function(d) {
-                console.log(d["Theme"])
                 if (d["Theme"] === chartPieData[i].data.value.key) {
                   return ""
                 } else {
@@ -2492,8 +2480,9 @@
               .attr("y", function(d) {
                 return d.y;
               })
-              .attr("xlink:href", function(d) {
-                return (d["Logo (source)"])
+              .attr("xlink:href", function(d)  {
+                //return 'data:image/svg+xml,' + encodeURIComponent(d["Logo (source)"])
+                //return getDataUri(d["Logo (source)"])
               })
               .attr("width", function(d) {
                 return 40
@@ -2516,8 +2505,8 @@
                     saveAs(dataBlob, "radar " + name + ".png");
                   }
   
-                  //tmp_svg.remove();
-                }, 1500 * i);
+                  tmp_svg.remove();
+                }, 1500 * (i + 1));
               }
             }
 
