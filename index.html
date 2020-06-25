@@ -1338,11 +1338,11 @@
   
   
         d3.csv(
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vR-BAWGg0c1wQ5NVrvOTEBhRqGnTJUZn8jAofUum8kVS2E-ji8rjncAZAUQJvRb5dDUbVRM1qXbgeAV/pub?gid=613487733&single=true&output=csv "
+          "https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/e/2PACX-1vR-BAWGg0c1wQ5NVrvOTEBhRqGnTJUZn8jAofUum8kVS2E-ji8rjncAZAUQJvRb5dDUbVRM1qXbgeAV/pub?gid=613487733&single=true&output=csv "
         ).then(function(data) {
 
           data = data.filter(function(d) {
-            return d["To Include"] === "TRUE"
+            return d["Include"] === "TRUE"
           })
 
               var themeSorted = d3
